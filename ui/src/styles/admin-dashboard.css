@@ -1,0 +1,31 @@
+#admin-dashboard-container {
+  padding: 20px 0 0 20px;
+  flex-direction: column;
+}
+
+.monthly-stats-container ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.month-container {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  margin: 10px;
+}
+.month-container h4 {
+  background: #504f4f;
+  color: white;
+  text-align: center;
+}
+.stats-details {
+  padding: 10px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+}

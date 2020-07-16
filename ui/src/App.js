@@ -5,6 +5,8 @@ import "react-calendar/dist/Calendar.css";
 import Header from "./components/Header";
 import BookingGrid from "./components/BookingGrid";
 import MakeBooking from "./components/MakeBooking";
+import Admin from "./components/Admin";
+
 import { formatDate } from "./util/util";
 
 import "./App.css";
@@ -205,12 +207,17 @@ class App extends React.Component {
               handleBarberFilterChange={this.handleBarberFilterChange}
             />
           </Route>
+
           <Route path="/make-booking/:businessDate/:timeSlot">
             <MakeBooking
               barbers={this.state.barbers}
               timeSlotsForCurrentDate={this.state.timeSlotsForCurrentDate}
               createNewBooking={this.createNewBooking}
             />
+          </Route>
+
+          <Route extact path="/admin">
+            <Admin barbers={this.state.barbers} loadBarbers={this.loadBarbers} />
           </Route>
         </Switch>
       </div>

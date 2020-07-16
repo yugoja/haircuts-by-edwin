@@ -23,23 +23,6 @@ export default function MakeBooking({
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    /* const existingBookingsForSelectedTimeSlot = timeSlotsForCurrentDate.filter(
-      (ts) => ts.timeSlot === timeSlot
-    )[0]; */
-
-    /* const BarbersToAssign = barbers.filter((barber) => {
-      const indexOfBarber = existingBookingsForSelectedTimeSlot.bookings.findIndex(
-        (booking) => {
-          if (Object.keys(booking).length === 0 && booking.constructor === Object) {
-            return false;
-          }
-          return booking.barber.id === barber.id;
-        }
-      );
-
-      return indexOfBarber === -1 ? true : false;
-    }); */
-
     const newBooking = {
       businessDate,
       timeSlot: timeSlot.slice(0, 2) + timeSlot.slice(3),
@@ -61,7 +44,7 @@ export default function MakeBooking({
 
   return (
     <div className="container make-booking ">
-      <h2>Make a Booking</h2>
+      <h2 className="page-title">Make a Booking</h2>
       <div className="booking-details">
         <h4>
           <span className="booking-details-label">Date:</span> {businessDate}

@@ -3,3 +3,8 @@
   display: flex;
   padding: 20px 0 0 0;
 }
+.page-title {
+  width: 97%;
+  border-bottom: 1px solid #504f4f;
+  padding: 0 0 7px 7px;
+}
