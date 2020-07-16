@@ -1,0 +1,49 @@
+.booking-siderbar {
+  flex: 0 0 300px;
+  border-right: 1px solid #eee;
+  margin: 42px 0 0 0;
+  justify-content: center;
+  display: flex;
+}
+.react-calendar {
+  width: 250px;
+  min-width: 250px;
+  height: 270px;
+}
+
+/* Booking grid */
+.booking-grid-title {
+  text-align: center;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+.booking-slot-container {
+  padding: 0 10px 50px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.booking-slots-grid {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+}
+.booking-slots-grid li:first-child.booking-grid__time-slot-row {
+  background: #504f4f;
+  color: white;
+}
+li.booking-grid__time-slot-row {
+  display: flex;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+li.booking-grid__time-slot-row > div {
+  padding: 3px 10px;
+  width: 150px;
+  border-right: 1px solid black;
+}
+
+.booking.booked-slot {
+  color: #ff6600;
+}
