@@ -1,0 +1,59 @@
+.container.make-booking {
+  flex-direction: column;
+  padding: 20px 0 0 20px;
+}
+.booking-details {
+  margin: 20px 0;
+}
+.booking-details-label {
+  display: inline-block;
+  width: 78px;
+  font-weight: bold;
+}
+.booking-form-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  padding: 20px;
+  border: 1px solid;
+  background: #f3f6ed;
+}
+
+.booking-form label {
+  margin-bottom: 10px;
+}
+
+.booking-form label input {
+  width: 75%;
+  height: 30px;
+  border: 1px solid #a0a0a0;
+}
+
+.submit-wrapper {
+  text-align: center;
+  margin-top: 10px;
+  background: gr;
+}
+input[type="submit"] {
+  width: 80px;
+  height: 25px;
+  background: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.form-label {
+  width: 100px;
+  display: inline-block;
+}
+
+@media screen and (max-width: 460px) {
+  .booking-form {
+    width: 95%;
+  }
+}

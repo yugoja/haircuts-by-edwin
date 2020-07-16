@@ -29,7 +29,8 @@
   border-top: 1px solid black;
   border-left: 1px solid black;
 }
-.booking-slots-grid li:first-child.booking-grid__time-slot-row {
+.booking-slots-grid li:first-child.booking-grid__time-slot-row,
+li.booking-grid__time-slot-row > div:first-child {
   background: #504f4f;
   color: white;
 }
@@ -43,7 +44,33 @@ li.booking-grid__time-slot-row > div {
   width: 150px;
   border-right: 1px solid black;
 }
-
+.booking.open-slot:hover {
+  background: #ff6600;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
 .booking.booked-slot {
   color: #ff6600;
+  pointer-events: none;
+  user-select: none;
+}
+.booking-slot__link {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  padding: 3px 10px;
+}
+
+@media screen and (max-width: 460px) {
+  .booking-container {
+    flex-direction: column;
+  }
+
+  li.booking-grid__time-slot-row > div {
+    width: 100px;
+  }
+  .booking-siderbar {
+    margin: 0;
+  }
 }

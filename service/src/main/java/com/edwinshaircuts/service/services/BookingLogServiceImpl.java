@@ -100,7 +100,7 @@ public class BookingLogServiceImpl implements BookingLogService{
                 Query addTimeSlotQuery = new Query(Criteria.where("businessDate").is(newBooking.getBusinessDate()));
                 Update addTimeSlotUpdate = new Update().push("timeSlots", newTimeSlot);
 
-                mongoTemplate.findAndModify(addTimeSlotQuery, addTimeSlotUpdate, BookingLog.class);
+                return  mongoTemplate.findAndModify(addTimeSlotQuery, addTimeSlotUpdate, BookingLog.class);
             } else if(existingTimeSlot.getBookings().size() < bookingsPerSlot) {
                 Booking booking = new Booking();
                 booking.setCustomer(newBooking.getCustomer());
@@ -114,10 +114,10 @@ public class BookingLogServiceImpl implements BookingLogService{
                 );
                 Update update = new Update().push("timeSlots.$.bookings", booking);
 
-                mongoTemplate.findAndModify(query, update, BookingLog.class);
+                return  mongoTemplate.findAndModify(query, update, BookingLog.class);
             }
 
-            return new BookingLog();
+            return null;
         }
     }
 

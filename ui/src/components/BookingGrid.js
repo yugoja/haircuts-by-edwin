@@ -1,9 +1,12 @@
 import React from "react";
 import Calendar from "react-calendar";
+import { Link } from "react-router-dom";
+
+import { formatDate } from "../util/util";
 
 import "../styles/booking.css";
 
-export default function Booking({
+export default function BookingGrid({
   currentDate,
   timeSlotsForCurrentDate,
   dateFormatOptions,
@@ -35,7 +38,16 @@ export default function Booking({
                       booking.constructor === Object ? (
                       <div className="booking open-slot" key={idx}>
                         <div>
-                          <button>Book</button>
+                          <Link
+                            className="booking-slot__link"
+                            to={{
+                              pathname: `/make-booking/${formatDate(currentDate)}/${
+                                ts.timeSlot
+                              }`,
+                            }}
+                          >
+                            Book
+                          </Link>
                         </div>
                       </div>
                     ) : (

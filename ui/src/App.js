@@ -3,7 +3,8 @@ import { Switch, Route, withRouter } from "react-router-dom";
 import "react-calendar/dist/Calendar.css";
 
 import Header from "./components/Header";
-import Booking from "./components/Booking";
+import BookingGrid from "./components/BookingGrid";
+import MakeBooking from "./components/MakeBooking";
 import { formatDate } from "./util/util";
 
 import "./App.css";
@@ -18,20 +19,57 @@ class App extends React.Component {
       day: "numeric",
     },
     timeSlotsForCurrentDate: [],
+    barbers: [],
   };
+
+  constructor(props) {
+    super(props);
+
+    this.props = props;
+  }
 
   componentDidMount() {
     this.loadBookingLog(this.state.currentDate);
+    this.loadBarbers();
   }
 
   loadBookingLog = (businessDate) => {
     const specifiedDate = formatDate(businessDate);
 
-    fetch(`http://localhost:8080/booking-log?businessDate=${specifiedDate}`)
+    return fetch(`http://localhost:8080/booking-log?businessDate=${specifiedDate}`)
       .then((resp) => resp.json())
       .then((data) => {
         this.prepareBookingSlotsData(businessDate, data.timeSlots);
-      });
+      })
+      .catch((e) => console.error(e));
+  };
+
+  loadBarbers = () => {
+    fetch(`http://localhost:8080/barbers`)
+      .then((resp) => resp.json())
+      .then((barbersData) =>
+        this.setState({
+          ...this.state,
+          barbers: [...barbersData],
+        })
+      )
+      .catch((e) => console.error(e));
+  };
+
+  createNewBooking = (newBooking) => {
+    fetch(`http://localhost:8080/book`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newBooking),
+    })
+      .then((resp) => resp.json())
+      .then((updateTimeSlotsForCurrentDate) => {
+        return this.loadBookingLog(this.state.currentDate);
+      })
+      .then(() => this.props.history.push("/"))
+      .catch((e) => console.error(e));
   };
 
   onClickDay = (newDate, e) => {
@@ -119,11 +157,18 @@ class App extends React.Component {
 
         <Switch>
           <Route exact path="/">
-            <Booking
+            <BookingGrid
               currentDate={this.state.currentDate}
               dateFormatOptions={this.state.dateFormatOptions}
               timeSlotsForCurrentDate={this.state.timeSlotsForCurrentDate}
               onClickDay={this.onClickDay}
+            />
+          </Route>
+          <Route path="/make-booking/:businessDate/:timeSlot">
+            <MakeBooking
+              barbers={this.state.barbers}
+              timeSlotsForCurrentDate={this.state.timeSlotsForCurrentDate}
+              createNewBooking={this.createNewBooking}
             />
           </Route>
         </Switch>
@@ -132,4 +177,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -1,5 +1,8 @@
 package com.edwinshaircuts.service.vo;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "barbers")
 public class Barber {
     private String id;
     private String firstName;
