@@ -29,8 +29,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.loadBookingLog(this.state.currentDate);
-    this.loadBarbers();
+    this.loadBarbers().then(() => this.loadBookingLog(this.state.currentDate));
   }
 
   loadBookingLog = (businessDate) => {
@@ -45,14 +44,19 @@ class App extends React.Component {
   };
 
   loadBarbers = () => {
-    fetch(`http://localhost:8080/barbers`)
+    return fetch(`http://localhost:8080/barbers`)
       .then((resp) => resp.json())
-      .then((barbersData) =>
+      .then((barbersData) => {
+        barbersData.sort((a, b) => parseFloat(b.ratings) - parseFloat(a.ratings));
+
+        barbersData.forEach((barber) => (barber.selected = true));
+
+        console.log(barbersData);
         this.setState({
           ...this.state,
           barbers: [...barbersData],
-        })
-      )
+        });
+      })
       .catch((e) => console.error(e));
   };
 
@@ -114,6 +118,7 @@ class App extends React.Component {
 
     const bookingsForTimeSlot = ["booking1", "booking3", "booking3"];
 
+    // Prepare total timeslots based on if business day is weekend or weekday
     const dayOfBusinessDate = new Date(businessDate).getDay();
     const isBusinessDateWeekend = dayOfBusinessDate === 6 || dayOfBusinessDate === 0;
     const availableBookingTimeSlots = isBusinessDateWeekend
@@ -125,19 +130,39 @@ class App extends React.Component {
 
     const timeSlotsForCurrentDate = availableBookingTimeSlots.map((timeSlot) => {
       const enrichedTimeSlot = {};
+
+      enrichedTimeSlot.timeSlot = timeSlot.slice(0, 2) + ":" + timeSlot.slice(2);
+
       const bookedTimeSlotIndex = timeSlotsWithExistingBookings.findIndex(
         (ts) => ts.timeSlot === timeSlot
       );
 
-      enrichedTimeSlot.timeSlot = timeSlot.slice(0, 2) + ":" + timeSlot.slice(2);
-      enrichedTimeSlot.bookings =
+      const unsortedBookings =
         bookedTimeSlotIndex !== -1
           ? timeSlotsWithExistingBookings[bookedTimeSlotIndex].bookings
           : [];
 
       bookingsForTimeSlot.forEach((booking, index) => {
-        if (enrichedTimeSlot.bookings[index] == null) {
-          enrichedTimeSlot.bookings.push({});
+        if (unsortedBookings[index] == null) {
+          unsortedBookings.push({});
+        }
+      });
+
+      enrichedTimeSlot.bookings = this.state.barbers.map((barber) => {
+        const indexOfBarber = unsortedBookings.findIndex((booking) => {
+          if (Object.keys(booking).length === 0 && booking.constructor === Object) {
+            return false;
+          }
+          return booking.barber.id === barber.id;
+        });
+
+        if (indexOfBarber !== -1) {
+          return unsortedBookings[indexOfBarber];
+        } else {
+          return {
+            barber,
+            customer: {},
+          };
         }
       });
 
@@ -147,6 +172,20 @@ class App extends React.Component {
     this.setState({
       ...this.state,
       timeSlotsForCurrentDate: [...timeSlotsForCurrentDate],
+    });
+  };
+
+  handleBarberFilterChange = (barberIndex) => {
+    this.setState({
+      ...this.state,
+      barbers: [
+        ...this.state.barbers.slice(0, barberIndex),
+        {
+          ...this.state.barbers[barberIndex],
+          selected: !this.state.barbers[barberIndex].selected,
+        },
+        ...this.state.barbers.slice(barberIndex + 1),
+      ],
     });
   };
 
@@ -161,7 +200,9 @@ class App extends React.Component {
               currentDate={this.state.currentDate}
               dateFormatOptions={this.state.dateFormatOptions}
               timeSlotsForCurrentDate={this.state.timeSlotsForCurrentDate}
+              barbers={this.state.barbers}
               onClickDay={this.onClickDay}
+              handleBarberFilterChange={this.handleBarberFilterChange}
             />
           </Route>
           <Route path="/make-booking/:businessDate/:timeSlot">

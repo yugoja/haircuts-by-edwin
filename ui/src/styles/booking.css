@@ -2,13 +2,29 @@
   flex: 0 0 300px;
   border-right: 1px solid #eee;
   margin: 42px 0 0 0;
-  justify-content: center;
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .react-calendar {
   width: 250px;
   min-width: 250px;
   height: 270px;
+}
+.barber-filter {
+  align-self: flex-start;
+  padding: 24px;
+}
+.barber-filter h3 {
+  font-weight: bold;
+}
+.barber-list input[type="checkbox"] {
+  margin-right: 7px;
+}
+.barber-list li {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Booking grid */

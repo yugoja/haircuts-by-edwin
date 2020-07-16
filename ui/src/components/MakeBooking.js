@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import "../styles/makeBooking.css";
 
@@ -7,7 +7,12 @@ export default function MakeBooking({
   barbers,
   timeSlotsForCurrentDate,
   createNewBooking,
+  location,
 }) {
+  const {
+    state: { barber },
+  } = useLocation();
+
   const { businessDate, timeSlot } = useParams();
 
   const [firstName, setFirstName] = useState("");
@@ -18,11 +23,11 @@ export default function MakeBooking({
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    const existingBookingsForSelectedTimeSlot = timeSlotsForCurrentDate.filter(
+    /* const existingBookingsForSelectedTimeSlot = timeSlotsForCurrentDate.filter(
       (ts) => ts.timeSlot === timeSlot
-    )[0];
+    )[0]; */
 
-    const BarbersToAssign = barbers.filter((barber) => {
+    /* const BarbersToAssign = barbers.filter((barber) => {
       const indexOfBarber = existingBookingsForSelectedTimeSlot.bookings.findIndex(
         (booking) => {
           if (Object.keys(booking).length === 0 && booking.constructor === Object) {
@@ -33,7 +38,7 @@ export default function MakeBooking({
       );
 
       return indexOfBarber === -1 ? true : false;
-    });
+    }); */
 
     const newBooking = {
       businessDate,
@@ -45,9 +50,9 @@ export default function MakeBooking({
         mobile,
       },
       barber: {
-        id: BarbersToAssign[0].id,
-        firstName: BarbersToAssign[0].firstName,
-        lastName: BarbersToAssign[0].lastName,
+        firstName: barber.firstName,
+        lastName: barber.lastName,
+        id: barber.id,
       },
     };
 
@@ -67,7 +72,9 @@ export default function MakeBooking({
       </div>
 
       <form className="booking-form" onSubmit={handleSubmit}>
-        <h4 className="booking-form-title">Please fill following details to reserve your spot</h4>
+        <h4 className="booking-form-title">
+          Please fill following details to reserve your spot
+        </h4>
         <label htmlFor="firstName">
           <span className="form-label">First Name:</span>
           <input
