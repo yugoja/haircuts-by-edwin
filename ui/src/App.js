@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import "react-calendar/dist/Calendar.css";
+import { withTranslation, Trans } from "react-i18next";
 
 import Header from "./components/Header";
 import BookingGrid from "./components/BookingGrid";
@@ -22,12 +23,14 @@ class App extends React.Component {
     },
     timeSlotsForCurrentDate: [],
     barbers: [],
+    currentLanguage: "en",
   };
 
   constructor(props) {
     super(props);
 
     this.props = props;
+    console.log(props);
   }
 
   componentDidMount() {
@@ -191,10 +194,23 @@ class App extends React.Component {
     });
   };
 
+  handleLanguageChange = (event) => {
+    this.setState({
+      ...this.state,
+      currentLanguage: event.target.value,
+    });
+
+    this.props.i18n.changeLanguage(event.target.value);
+  };
+
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header
+          t={this.props.t}
+          currentLanguage={this.state.currentLanguage}
+          handleLanguageChange={this.handleLanguageChange}
+        />
 
         <Switch>
           <Route exact path="/">
@@ -205,6 +221,8 @@ class App extends React.Component {
               barbers={this.state.barbers}
               onClickDay={this.onClickDay}
               handleBarberFilterChange={this.handleBarberFilterChange}
+              t={this.props.t}
+              currentLanguage={this.state.currentLanguage}
             />
           </Route>
 
@@ -213,11 +231,16 @@ class App extends React.Component {
               barbers={this.state.barbers}
               timeSlotsForCurrentDate={this.state.timeSlotsForCurrentDate}
               createNewBooking={this.createNewBooking}
+              t={this.props.t}
             />
           </Route>
 
           <Route extact path="/admin">
-            <Admin barbers={this.state.barbers} loadBarbers={this.loadBarbers} />
+            <Admin
+              barbers={this.state.barbers}
+              loadBarbers={this.loadBarbers}
+              t={this.props.t}
+            />
           </Route>
         </Switch>
       </div>
@@ -225,4 +248,4 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(App);
+export default withTranslation("translations")(withRouter(App));

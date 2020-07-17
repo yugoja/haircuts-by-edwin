@@ -13,13 +13,15 @@ export default function BookingGrid({
   barbers,
   onClickDay,
   handleBarberFilterChange,
+  t,
+  currentLanguage,
 }) {
   return (
     <div className="container booking-container">
       <div className="booking-siderbar">
-        <Calendar onClickDay={onClickDay} value={currentDate} />
+        <Calendar locale={currentLanguage} onClickDay={onClickDay} value={currentDate} />
         <div className="barber-filter">
-          <h3>Barber Filter</h3>
+          <h3>{t("Barber Filter")}</h3>
           <ul className="barber-list">
             {barbers.map((barber, barberIndex) => (
               <li key={barberIndex}>
@@ -41,12 +43,12 @@ export default function BookingGrid({
       </div>
       <div className="booking-slot-container">
         <h2 className="booking-grid-title">
-          {currentDate.toLocaleDateString("en-US", dateFormatOptions)}
+          {currentDate.toLocaleDateString(currentLanguage, dateFormatOptions)}
         </h2>
         <div className="booking-slots-grid">
           <ul>
             <li className="booking-grid__time-slot-row">
-              <div className="booking-grid__time-slot-title">Time Slot</div>
+              <div className="booking-grid__time-slot-title">{t("Time Slot")}</div>
               {barbers
                 .filter((barber) => barber.selected)
                 .map((barber) => (
@@ -75,13 +77,13 @@ export default function BookingGrid({
                                 state: { barber: booking.barber },
                               }}
                             >
-                              Book
+                              {t("Book")}
                             </Link>
                           </div>
                         </div>
                       ) : (
                         <div className="booking booked-slot" key={idx}>
-                          <div>Booked</div>
+                          <div>{t("Booked")}</div>
                         </div>
                       );
                     })}

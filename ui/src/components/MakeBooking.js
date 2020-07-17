@@ -8,6 +8,7 @@ export default function MakeBooking({
   timeSlotsForCurrentDate,
   createNewBooking,
   location,
+  t
 }) {
   const {
     state: { barber },
@@ -44,22 +45,22 @@ export default function MakeBooking({
 
   return (
     <div className="container make-booking ">
-      <h2 className="page-title">Make a Booking</h2>
+      <h2 className="page-title">{t("Make a Booking")}</h2>
       <div className="booking-details">
         <h4>
-          <span className="booking-details-label">Date:</span> {businessDate}
+          <span className="booking-details-label">{t("Date")}:</span> {businessDate}
         </h4>
         <h4>
-          <span className="booking-details-label">Time:</span> {timeSlot}
+          <span className="booking-details-label">{t("Time")}:</span> {timeSlot}
         </h4>
       </div>
 
       <form className="booking-form" onSubmit={handleSubmit}>
         <h4 className="booking-form-title">
-          Please fill following details to reserve your spot
+          {t("Please fill following information to reserve your spot")}
         </h4>
         <label htmlFor="firstName">
-          <span className="form-label">First Name:</span>
+          <span className="form-label">{t("First Name")}:</span>
           <input
             type="text"
             id="firstName"
@@ -70,7 +71,7 @@ export default function MakeBooking({
           />
         </label>
         <label htmlFor="lastName">
-          <span className="form-label">Last Name:</span>
+          <span className="form-label">{t("Last Name")}:</span>
           <input
             type="text"
             id="lastName"
@@ -81,7 +82,7 @@ export default function MakeBooking({
           />
         </label>
         <label htmlFor="email">
-          <span className="form-label">Email:</span>
+          <span className="form-label">E-mail:</span>
           <input
             type="email"
             id="email"
@@ -92,7 +93,7 @@ export default function MakeBooking({
           ></input>
         </label>
         <label htmlFor="mobile">
-          <span className="form-label">Mobile:</span>
+          <span className="form-label">{t("Mobile")}:</span>
           <input
             type="text"
             id="mobile"
@@ -103,7 +104,7 @@ export default function MakeBooking({
           />
         </label>
         <div className="submit-wrapper">
-          <input type="submit" value="Submit" />
+          <input type="submit" value={t("Submit")} />
         </div>
       </form>
     </div>

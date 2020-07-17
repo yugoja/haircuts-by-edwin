@@ -25,3 +25,10 @@ header button {
   border-radius: 5px;
   margin-left: 10px;
 }
+
+.language-radio-group label {
+  padding-right: 10px;
+}
+.language-radio-group label input{
+  margin-right: 5px;
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Trans } from "react-i18next";
 
 import "../styles/admin-dashboard.css";
 
@@ -37,13 +38,15 @@ class Admin extends React.Component {
   render() {
     return (
       <div className="container" id="admin-dashboard-container">
-        <h2 className="page-title">Admin Dashboard</h2>
+        <h2 className="page-title">{this.props.t("Admin Dashboard")}</h2>
         <div className="monthly-stats-container">
           <ul>
             {this.state.monthlyStats.map((monthlyStat, index) => (
               <li key={index}>
                 <div className="month-container">
-                  <h4>{monthlyStat.month}, {monthlyStat.year}</h4>
+                  <h4>
+                    <Trans>{monthlyStat.month}</Trans> {monthlyStat.year}
+                  </h4>
                   <div className="stats-details">
                     {monthlyStat.stats.map((stat) => (
                       <div key={stat.id} className="stats-row">
