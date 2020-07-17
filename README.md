@@ -1,4 +1,5 @@
 # haircuts-by-edwin
+Online booking management system for a barber shop. This application uses react to build the front-end and java, spring boot to build the APIs required. The data is persisted on mongo DB Atlas.
 
 ## Steps to run the application
 
